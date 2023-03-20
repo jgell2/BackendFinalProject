@@ -14,11 +14,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//controller used to update entries in the show table
 @Validated
 @RequestMapping("/update-shows")
 @OpenAPIDefinition(info = @Info(title = "Shows Update Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface UpdateShowsController {
+  
+  //documentation for the update operation for the show entity's HTTP status codes
   // @formatter:off
   @Operation(
       summary = "Updates an existing Show",
@@ -40,6 +43,10 @@ public interface UpdateShowsController {
               description = "An unplanned error occured.", 
               content = @Content(mediaType = "application/json"))
       })
+  /**
+   * put mapping uses a Path variable for the showPK as the URI and a 
+   * request body in JSON to update a specific row of the show table
+   **/
   @PutMapping("/{showPK}")
   public Shows updateShowBand(@PathVariable Long showPK, @RequestBody Shows show);
 }

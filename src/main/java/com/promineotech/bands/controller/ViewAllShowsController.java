@@ -19,12 +19,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//controller for viewing shows stored in the shows table
 @Validated
 @RequestMapping("/view-shows")
 @OpenAPIDefinition(info = @Info(title = "Shows Get Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface ViewAllShowsController {
-
+//documentation for the get operation on the shows table for the HTTP status codes
 
 
     // @formatter:off
@@ -49,6 +50,9 @@ public interface ViewAllShowsController {
                 content = @Content(mediaType = "application/json"))
         }
         )
+    /**get mapping runs the fetch shows method which is passed on to the implementing 
+     * class & shows all shows in the shows table
+     **/
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     List<Shows> fetchShows();

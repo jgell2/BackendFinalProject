@@ -14,13 +14,19 @@ import com.promineotech.bands.entity.City;
 import com.promineotech.bands.entity.Genre;
 import lombok.extern.slf4j.Slf4j;
 
+//implementing class for add shows service interface
 @Service
 @Slf4j
 public class BasicShowAddService implements ShowAddService {
   
+  //creates a new instance of the add shows DAO interface
   @Autowired
   private ShowAddDao showAddDao;
 
+  /*create show method puts together the show by passing in the JSON request to each get method for 
+   * the components of the show. It needs to be done this way as the show is made up of 
+   * entirely foreign keys. The save show method from the DAO is returned on this
+   * */
   @Override
   public Shows createShow(ShowRequest showRequest) {
     log.debug("Show={}", showRequest);
@@ -31,7 +37,9 @@ public class BasicShowAddService implements ShowAddService {
     
     return showAddDao.saveShow(band, city, venue, genres);
   }
-
+/* each of the methods below are used to create the component objects in a Show so one can be 
+ * returned. All are passed through to the DAO layer and if a particular entry does not exist, 
+ * an error is returned. */
   private List<Genre> getGenre(ShowRequest showRequest) {
     return showAddDao.fetchGenre(showRequest.getGenres());
   }

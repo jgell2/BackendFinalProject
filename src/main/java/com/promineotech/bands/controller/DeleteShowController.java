@@ -13,10 +13,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//controller for deleting a specific show, uses the uri "http://localhost:8080/delete-show/{showPK}
 @Validated
 @RequestMapping("/delete-show")
 @OpenAPIDefinition(info = @Info(title = "Shows Delete Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
+
+//documentation for HTTP status codes for the controller
 public interface DeleteShowController {
   @Operation(
       summary = "Deletes a specified show",
@@ -40,6 +43,7 @@ public interface DeleteShowController {
       }
       )
 
+  //delete mapping uses the showPK path variable in the URI to delete a specific show
   @DeleteMapping("/{showPK}")
   public void deleteShow(@PathVariable Long showPK);
 }

@@ -8,6 +8,8 @@ import com.promineotech.bands.entity.Genre;
 import com.promineotech.bands.entity.Shows;
 import com.promineotech.bands.entity.Venue;
 
+/*interface containing the add methods on the DAO layer for shows, "fetch" here is utilized 
+ * as the show object must be created out of other component objects*/
 public interface ShowAddDao {
 
   Optional<Band> fetchBand(String band);

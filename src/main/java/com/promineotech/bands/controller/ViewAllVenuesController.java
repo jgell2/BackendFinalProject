@@ -16,11 +16,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//controller used to view venues listed in the venues table 
 @Validated
 @RequestMapping("/view-venues")
 @OpenAPIDefinition(info = @Info(title = "Venues Get Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface ViewAllVenuesController {
+  
+  //documentation for the HTTP codes for the get operation for venues
   // @formatter:off
   @Operation(
       summary = "Returns a list of Venues",
@@ -43,6 +46,7 @@ public interface ViewAllVenuesController {
               content = @Content(mediaType = "application/json"))
       }
       )
+  //get mapping runs the fetch venues method and returns all venues in the venue table
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
   List<Venue> fetchVenue();

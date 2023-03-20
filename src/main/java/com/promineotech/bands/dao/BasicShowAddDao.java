@@ -22,13 +22,18 @@ import com.promineotech.bands.entity.Genre;
 import com.promineotech.bands.entity.Shows;
 import com.promineotech.bands.entity.Venue;
 
+//implementing class of the view shows dao interface
 @Component
 public class BasicShowAddDao implements ShowAddDao {
 
+  //uses a jdbc template object to talk to the database, this one uses the Named Parameter version
   @Autowired
   private NamedParameterJdbcTemplate jdbcTemplate;
 
-  
+  /*the save show method generates insert SQL that passes in the Band, City and venue created by the methods on this class
+   * a key holder is then created to be used for the show's PK and a method is ran on the jdbc template object
+   * to pass the parameters into our sql statements
+   * */
   @Override
   public Shows saveShow(Band band, City city, Venue venue, List<Genre> genres) {
     SqlParams params = generateInsertSql(band, city, venue);
@@ -36,9 +41,11 @@ public class BasicShowAddDao implements ShowAddDao {
     KeyHolder keyHolder = new GeneratedKeyHolder();
     jdbcTemplate.update(params.sql, params.source, keyHolder);
     
+    //the keyholder is used here to assign any/all genres to the newly created show
     Long showPK = keyHolder.getKey().longValue();
     saveGenres(genres, showPK);
     
+    //a builder is used to create the show object inlcuding all custom components of the object
     // @formatter:off
     return Shows.builder()
         .showPK(showPK)
@@ -51,6 +58,7 @@ public class BasicShowAddDao implements ShowAddDao {
   }
 
 
+  //save genres method functions similarly to the first portion of shows but specific to genre
   private void saveGenres(List<Genre> genres, Long showPK) {
     for(Genre genre: genres) {
       SqlParams params = generateInsertSqlGenre(genre, showPK);
@@ -60,6 +68,7 @@ public class BasicShowAddDao implements ShowAddDao {
   }
 
 
+  //generate insert statement for genres
   private SqlParams generateInsertSqlGenre(Genre genre, Long showPK) {
     SqlParams params = new SqlParams();
     
@@ -78,7 +87,7 @@ public class BasicShowAddDao implements ShowAddDao {
     return params;
   }
 
-
+// insert sql generator for the new show being added
   private SqlParams generateInsertSql(Band band, City city, Venue venue) {
     // @formatter:off
     String sql = ""
@@ -99,6 +108,7 @@ public class BasicShowAddDao implements ShowAddDao {
     return params;
   }
 
+  //gets the genre objects requested in Request Body and creates the object in java with a row mapper
   @Override
   public List<Genre> fetchGenre(List<String> genres) {
     if(genres.isEmpty()) {
@@ -136,6 +146,7 @@ public class BasicShowAddDao implements ShowAddDao {
       }});
   }
 
+  //similar to genre but for band, creates a new band object using a custom result set extractor
   @Override
   public Optional<Band> fetchBand(String band) {
     String sql = ""
@@ -148,6 +159,7 @@ public class BasicShowAddDao implements ShowAddDao {
     return Optional.ofNullable(jdbcTemplate.query(sql, params, new BandResultSetExtractor()));
   }
   
+  //works the same as fetch band
   @Override
   public Optional<City> fetchCity(String city, String state) {
     // @formatter:off
@@ -166,6 +178,7 @@ public class BasicShowAddDao implements ShowAddDao {
   }
 
 
+  //works the same as band
   @Override
   public Optional<Venue> fetchVenue(String venue) {
     // @formatter:off
@@ -179,7 +192,8 @@ public class BasicShowAddDao implements ShowAddDao {
     params.put("venue_name", venue);
     return Optional.ofNullable(jdbcTemplate.query(sql, params, new VenueResultSetExtractor()));
   }
-  
+  /*venue result set extractor is a custom result set extractor that is used to create the venue 
+   * object in java and assign it to the newly created show*/
   class VenueResultSetExtractor implements ResultSetExtractor<Venue>{
 
     @Override
@@ -194,7 +208,7 @@ public class BasicShowAddDao implements ShowAddDao {
     }
     
   }
-
+//works the same as venue
   class BandResultSetExtractor implements ResultSetExtractor<Band>{
 
     @Override
@@ -211,7 +225,7 @@ public class BasicShowAddDao implements ShowAddDao {
     }
     
   }
-  
+  //works the same as venue
   class CityResultSetExtractor implements ResultSetExtractor<City>{
 
     @Override
@@ -230,7 +244,7 @@ public class BasicShowAddDao implements ShowAddDao {
   }
 
 
-
+//this class is used to make sql mapping simpler throughout the class
   class SqlParams {
     String sql;
     MapSqlParameterSource source = new MapSqlParameterSource();

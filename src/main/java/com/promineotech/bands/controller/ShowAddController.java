@@ -18,11 +18,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//controller for the put operation for a show in the shows table
 @Validated
 @RequestMapping("/shows")
 @OpenAPIDefinition(info = @Info(title = "Add Band Service"), 
      servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface ShowAddController {
+  
+  //documentation for the put operation's HTTP status codes
+  
   // @formatter:off
   @Operation(
       summary = "Create a new Show",
@@ -50,6 +54,9 @@ public interface ShowAddController {
               description = "The show as JSON")
       }
    )
+  /*post mapping uses the base URI of "shows" and a 
+   * request body called ShowRequest in JSON to add a show
+   * */
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   Shows createShow(@Valid @RequestBody ShowRequest showRequest);

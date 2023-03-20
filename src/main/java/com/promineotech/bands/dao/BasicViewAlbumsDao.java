@@ -12,13 +12,21 @@ import com.promineotech.bands.entity.Album;
 import com.promineotech.bands.entity.Band;
 import lombok.extern.slf4j.Slf4j;
 
+//implementing class of the DAO level interface for the get operation on album
 @Component
 @Slf4j
 public class BasicViewAlbumsDao implements ViewAlbumsDao {
   
+  //instantiates an instance of the jdbc template object used to pass data to and from the DB
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  /*fetch album method prints a log line in the console to let user know the data has 
+   *passed through into the data layer then a SQL statement is ran and passed into the jdbcTemplate 
+   *object where the query method is ran on it which takes the sql statement and a class called 
+   * "Album Row Mapper" which implements a standard Row Mapper and passes the jdbc template object in
+   * the constructor
+   * */
   @Override
   public List<Album> fetchAlbums() {
     log.debug("DAO: finalizing fetch Albums...");
@@ -34,6 +42,12 @@ public class BasicViewAlbumsDao implements ViewAlbumsDao {
     return albums;
   }
   
+  /*the AlbumsRowMapper class builds an album object to be returned to the user accessing 
+   * the URI "/view-albums." A custom row mapper such as this is needed because the album entity 
+   * utilizes the band foreign key and as a result needs to create the band object to set the fk's 
+   * value equal to it. Once the album object is created it is then passed back to our main class 
+   * and returned as a list of albums
+   * */
   class AlbumsRowMapper implements RowMapper<Album>{
     private final JdbcTemplate jdbcTemplate;
     

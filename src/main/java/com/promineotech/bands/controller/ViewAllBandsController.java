@@ -16,12 +16,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//controller used to view bands listed in the band table 
 @Validated
 @RequestMapping("/view-bands")
 @OpenAPIDefinition(info = @Info(title = "Bands Get Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface ViewAllBandsController {
  
+  //documentation for the HTTP codes for the get operation for bands
       // @formatter:off
       @Operation(
           summary = "Returns a list of Bands",
@@ -44,6 +46,8 @@ public interface ViewAllBandsController {
                   content = @Content(mediaType = "application/json"))
           }
           )
+      
+      //get mapping runs the fetch bands method and returns all bands in the bands table
       @GetMapping
       @ResponseStatus(code = HttpStatus.OK)
       List<Band> fetchBands();

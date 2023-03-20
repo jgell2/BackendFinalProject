@@ -16,11 +16,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+
+//controller used to view cities listed in the cities table 
 @Validated
 @RequestMapping("/view-cities")
 @OpenAPIDefinition(info = @Info(title = "Cities Get Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface ViewCitiesController {
+  
+  //documentation for the HTTP codes for the get operation for cities
   // @formatter:off
   @Operation(
       summary = "Returns a list of Cities",
@@ -43,6 +47,8 @@ public interface ViewCitiesController {
               content = @Content(mediaType = "application/json"))
       }
       )
+  
+  //get mapping runs the fetch cities method and returns all cities in the cities table
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
   List<City> fetchCities();

@@ -10,13 +10,19 @@ import org.springframework.stereotype.Component;
 import com.promineotech.bands.entity.Band;
 import lombok.extern.slf4j.Slf4j;
 
+//implementing class of the view bands dao interface
 @Component
 @Slf4j
 public class BasicViewBandsDao implements ViewBandsDao {
   
+  //uses a jdbc object to talk to the database
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  /*fetch method first logs a line in the console to let the user know the request has passed into 
+   * the DAO layer then a SQL statement is generated and a list of bands is created and the jdbc 
+   * template is assigned as its value running the query method on it, the sql statement as well as 
+   * a basic row mapper is used in the constructor*/
   @Override
   public List<Band> fetchBands() {
     log.debug("DAO: Finalizing fetch bands");

@@ -16,11 +16,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
+//Controller mapped to http://localhost:8080/view-albums used to view all albums
 @Validated
 @RequestMapping("/view-albums")
 @OpenAPIDefinition(info = @Info(title = "Albums Get Service"), 
     servers = {@Server(url="http://localhost:8080", description = "Local server.")})
 public interface ViewAlbumsController {
+  
+  //documentation for the view albums response codes
 //@formatter:off
   @Operation(
       summary = "Returns a list of Albums",
@@ -43,6 +46,7 @@ public interface ViewAlbumsController {
               content = @Content(mediaType = "application/json"))
       }
       )
+  //get mapping runs the fetchAllAlbums method which runs in the implementing class
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
   List<Album> fetchAlbums();
